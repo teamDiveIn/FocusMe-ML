@@ -14,13 +14,18 @@
     #canvas에 웹캠 화면 및 키포인트&스켈레톤 뿌림
     #label-container에 예측 결과 뿌림
 -->
-<!-- 
+
 <h1>테스트 모델</h1>
 <button type="button" onclick="init()">Start</button>
 <div><canvas id="canvas"></canvas></div>
 <div id="label-container"></div>
--->
 
+<!-- emoji를 html img element 로 넘겨줘야 함-->
+<div style="display:none;">
+    <img id="source"
+         src="http://pngimg.com/uploads/google/google_PNG19635.png">
+</div>
+  
 <!-- javascript -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
@@ -82,8 +87,22 @@
         // 0: nose 1: leftEye 2:rightEye 3:leftEar 4:rightEar 5:leftShoulder 6:rightShoulder
         //console.log(pose.keypoints[0].position);
 
+        center = pose.keypoints[0].position; // 얼굴의 중심 좌표
+        drawEmoji(center); // 이모지 그리는 함수
+
         // 포즈 스켈레톤 그리기 (선택사항)
-        drawPose(pose);
+        //drawPose(pose);
+    }
+
+    function drawEmoji(center) {
+        const image = document.getElementById('source');
+        if (webcam.canvas) {
+            ctx.drawImage(webcam.canvas, 0, 0);
+            if (center) {
+                const minPartConfidence = 0.5;
+                ctx.drawImage(image, center.x, center.y, 30, 30); // 이모지 그리기 (뒤에 숫자는 사이즈)
+            }
+        }
     }
 
     function drawPose(pose) {

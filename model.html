@@ -87,11 +87,6 @@
         // 0: nose 1: leftEye 2:rightEye 3:leftEar 4:rightEar 5:leftShoulder 6:rightShoulder
         //console.log(pose.keypoints[0].position);
 
-        center = 0;
-        if(pose) {// 포즈가 없음 (사람이 화면에 나오지 않음)
-            center = pose.keypoints[0].position; // 얼굴의 중심 좌표
-            // 여기서 집중 안한 경우 처리하면 됨
-        }
         drawEmoji(pose, prediction); // 이모지 그리는 함수
 
         // 포즈 스켈레톤 그리기 (선택사항)

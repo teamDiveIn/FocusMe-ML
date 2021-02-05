@@ -102,6 +102,7 @@
         argmax = 0;
         maxval = 0;
         // 시선 방향 얻기 (argmax)
+        // 0:정면 1:좌 2:우 3:하 4:상
         for (let i = 0; i < maxPredictions; i++) {
             if (prediction[i].probability > maxval) {
                 maxval = prediction[i].probability;

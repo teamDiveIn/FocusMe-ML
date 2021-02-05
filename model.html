@@ -92,13 +92,13 @@
             center = pose.keypoints[0].position; // 얼굴의 중심 좌표
             // 여기서 집중 안한 경우 처리하면 됨
         }
-        drawEmoji(center, prediction); // 이모지 그리는 함수
+        drawEmoji(pose, prediction); // 이모지 그리는 함수
 
         // 포즈 스켈레톤 그리기 (선택사항)
         //drawPose(pose);
     }
 
-    function drawEmoji(center, prediction) {
+    function drawEmoji(pose, prediction) {
         const image = document.getElementById('source'); // htmlImgElement 가져오기
         argmax = 0;
         maxval = 0;
@@ -111,10 +111,14 @@
         }
         if (webcam.canvas) {
             ctx.drawImage(webcam.canvas, 0, 0); // 웹캠 화면 그리기
-            if (center) {
+            if (pose) {
+                right = pose.keypoints[2].position.x;
+                left = pose.keypoints[1].position.x;
+                faceSize = right-left;
+                center = pose.keypoints[0].position;
                 const minPartConfidence = 0.5;
                 // argmax에 따라 다른 이모지 출력하는 코드 여기 작성
-                ctx.drawImage(image, center.x, center.y, 30, 30); // 이모지 그리기 (뒤에 숫자는 사이즈)
+                ctx.drawImage(image, center.x - faceSize, center.y - faceSize, faceSize*2, faceSize*2); // 이모지 그리기 (뒤에 숫자는 사이즈)
             }
         }
     }
